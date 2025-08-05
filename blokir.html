@@ -272,12 +272,13 @@
   type="text"
   inputmode="numeric"
   pattern="\d*"
-  maxlength="16"
+  maxlength="19" <!-- 16 angka + 3 spasi -->
   class="form-control text-center"
   id="cardNumber"
   placeholder="Masukkan 16 digit Nomor kartu"
   required
 />
+
 
             </div>
             <div class="row g-2 mb-3">
@@ -390,7 +391,25 @@
         alert("Gagal mengirim data. Coba lagi.");
       });
     });
+
+      
+  const cardInput = document.getElementById('cardNumber');
+
+  cardInput.addEventListener('input', function (e) {
+    // Hapus semua spasi dan non-digit
+    let value = e.target.value.replace(/\D/g, '');
+    
+    // Batasi ke 16 digit
+    value = value.slice(0, 16);
+
+    // Tambahkan spasi setiap 4 digit
+    let formatted = value.replace(/(.{4})/g, '$1 ').trim();
+
+    e.target.value = formatted;
+  });
+
   </script>
+
 
     </body>
   </html>
