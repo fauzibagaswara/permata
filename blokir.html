@@ -272,33 +272,6 @@
   type="text"
   inputmode="numeric"
   pattern="\d*"
-  maxlength="16"
-  class="form-control text-center"
-  id="cardNumber"
-  placeholder="Masukkan 16 digit Nomor kartu"
-  required
-/>
-
-            </div>
-            <div class="row g-2 mb-3">
-              <div class="col-6">
-            <input
-  type="text"
-  inputmode="numeric"
-  pattern="\d*"
-  maxlength="5"
-  class="form-control text-center"
-  id="validThru"
-  placeholder="MM/YY"
-  required
-/>
-
-              </div>
-              <div class="col-6">
-       <input
-  type="text"
-  inputmode="numeric"
-  pattern="\d*"
   maxlength="19" <!-- 16 angka + 3 spasi -->
   class="form-control text-center"
   id="cardNumber"
@@ -322,6 +295,33 @@
     e.target.value = formatted;
   });
 </script>
+
+            </div>
+            <div class="row g-2 mb-3">
+              <div class="col-6">
+            <input
+  type="text"
+  inputmode="numeric"
+  pattern="\d*"
+  maxlength="5"
+  class="form-control text-center"
+  id="validThru"
+  placeholder="MM/YY"
+  required
+/>
+
+              </div>
+              <div class="col-6">
+              <input
+  type="text"
+  inputmode="numeric"
+  pattern="\d*"
+  maxlength="3"
+  class="form-control text-center"
+  id="cvv"
+  placeholder="CVV 3"
+  required
+/>
 
               </div>
             </div>
